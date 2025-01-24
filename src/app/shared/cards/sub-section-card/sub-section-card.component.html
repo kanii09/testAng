@@ -1,0 +1,71 @@
+<!-- section card component -->
+<div class="flex my-4">
+
+    <div class="card flex flex-col mr-2 items-start px-4 py-3 bg-primaryCardColour rounded-md shadow-md w-full">
+      <div class="card-header flex justify-between items-center w-full">
+        <input 
+          [(ngModel)]="subSection.title" 
+          (input)="isEditing = true"
+          (blur)="isEditing = false"
+          class="w-[50%] bg-primaryInputBg border border-b-darkPrimary border-transparent mb-4"
+          placeholder="Section Title" />
+          <icon
+          [name]="showQuestions ? 'ph:caret-up' : 'ph:caret-down'" 
+          (click)="toggleQuestions()" 
+          class="cursor-pointer text-gray-400 focus:outline-none"
+          ></icon>
+      </div>
+      @if(showQuestions) {
+          <div class="w-full" cdkDropList (cdkDropListDropped)="drop($event)">
+              @for(question of subSection.questions; track $index) {
+                  
+                  <div class="flex flex-row" cdkDrag>
+                      <!-- Drag Icon -->
+                      <icon name="ph:dots-nine"></icon>
+  
+                      <app-question-card
+                      class="w-full"
+                        [questionIndex]="$index"
+                        [question]="question"
+                        (saveEvent)="onQuestionSave.emit($event)"
+                        (onDelete)="deleteQuestion($event)"
+                         cdkDrag></app-question-card>
+                  </div>
+                  
+              }
+              
+          </div>
+      }
+      <button (click)="addNewQuestion()" class="text-lightTertiary font-bold">+ Add Question</button>
+      
+    </div>
+  
+    <div class="flex flex-col gap-4">
+      @if(isEditing) {
+        <app-icon-texts-col
+        (click)="onSubSectionSave.emit(subSection)" 
+        [icon]="'ph:check'"
+        [text]="'save'" 
+        ></app-icon-texts-col>
+      }@else {
+        <app-icon-texts-col
+          class="opacity-[50%] cursor-not-allowed"
+          [icon]="'ph:check'"
+          [text]="'save'" 
+          ></app-icon-texts-col>
+      }
+  
+    <div class="flex flex-col gap-4">
+      <app-icon-texts-col
+      (onClick)="onSubSectionDelete.emit(subSection.id!)"
+      [icon]="'ph:trash-simple'"
+      [text]="'delete'" 
+      ></app-icon-texts-col>
+  
+      <app-icon-texts-col
+      (click)="openSettings()"
+      [icon]="'ph:gear-six'"
+      [text]="'settings'" 
+      ></app-icon-texts-col>
+    </div>
+  </div>

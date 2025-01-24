@@ -1,0 +1,53 @@
+<div class="flex-col text-textColour">
+  <h2 class="text-xl text-white px-6 py-4 font-bold mb-4 bg-darkBlue">Section Settings</h2>
+
+  <!-- Questions -->
+  <div class="px-6 py-4">
+    <!-- Variable Name -->
+    <label for="variable-name" class="block text-md font-bold mb-2">Variable Name</label>
+    <input
+      [(ngModel)]="selectedSection!.variableName"
+      id="variable-name"
+      class="w-full mb-4 px-4 py-2 border-white rounded-md bg-white outline-none"
+      placeholder="Enter_variable_name"
+    />
+    
+      <!-- Section Description -->
+      <label for="question-description" class="block text-md font-bold mb-2">Description</label>
+      <textarea
+        [(ngModel)]="selectedSection!.description"
+        id="question-description"
+        class="w-full mb-4 px-4 py-2 border-white rounded-md bg-white outline-none"
+        placeholder="Enter section description"
+      ></textarea>
+    
+      <!-- Skip logic Accordion -->
+    <label class="block text-md font-bold mb-2">Skip Logic</label>
+      <app-secondary-button
+      (onClickEvent)="toggleValidationAccordion()"
+      [buttonTitle]="'Add Condition'"
+      ></app-secondary-button>
+      @if(validationAccordionOpen) {
+        <div class="p-4 bg-gray-300 mb-4">
+          <!-- skip logic fields  -->
+          <label for="variable-name" class="block text-md text-gray-600 font-normal mb-2">Skip section if</label>
+          <input
+            [(ngModel)]="selectedSection!.skipWhen"
+            id="skip-when"
+            class="w-full mb-4 px-4 py-2 border-white rounded-md bg-white outline-none"
+            placeholder="Enter Condition"
+          />
+        </div>
+      }
+    
+      <!-- Save Button -->
+       <div class="mt-4">
+        <app-primary-button
+        (onClickEvent)="saveSection()"
+        [buttonTitle]="'Save'"
+        ></app-primary-button>
+       </div>
+
+    
+  </div>
+  

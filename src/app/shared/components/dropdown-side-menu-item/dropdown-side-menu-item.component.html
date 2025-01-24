@@ -1,0 +1,37 @@
+<div 
+  (click)="toggleDropdownEvent.emit(item)" 
+  class="flex items-center w-full p-4 leading-tight cursor-pointer transition-all focus:bg-gray-300 rounded-lg hover:bg-gray-300 hover:bg-opacity-80">
+  
+  <div class="grid place-items-center mr-4">
+    <icon name="{{item.icon!}}"
+    [ngClass]="{'text-lightSecondary': item.isOpen, 'text-lightTertiary': !item.isOpen}"></icon>
+  </div>
+  <span *ngIf="isMenuOpen" 
+    [ngClass]="{'font-bold': item.isOpen, 'font-thin': !item.isOpen}">
+    {{ item.text }}
+  </span>
+    <icon
+    *ngIf="isMenuOpen" 
+    name="{{item.isOpen ? 'ph:caret-up' : 'ph:caret-right'}}" 
+    [ngClass]="{'text-lightSecondary': item.isOpen, 'text-lightTertiary': !item.isOpen}"
+    class="ml-auto text-gray-400"></icon>
+</div>
+
+<!-- Dropdown Options -->
+<div *ngIf="item.isOpen && isMenuOpen" class="ml-8">
+  <ng-container *ngFor="let option of item.options">
+    <div class="flex-col">
+      <a 
+        routerLink="{{ option.link }}" 
+        routerLinkActive="active-menu-item" 
+        class="flex items-center w-full py-2 leading-tight focus:bg-gray-300 transition-all text-lightTertiary rounded-sm hover:text-white">
+        
+        <span 
+          [ngClass]="{'text-white': isActive(option.link!), 'font-light': !isActive(option.link!)}">
+          {{ option.text }}
+        </span>
+      </a>
+      <div *ngIf="isActive(option.link!)" class="bg-lightSecondary w-16 h-[2px] rounded-md transition-all duration-100"></div>
+    </div>
+  </ng-container>
+</div>
